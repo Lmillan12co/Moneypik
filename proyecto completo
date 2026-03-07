@@ -1,0 +1,38 @@
+/tuapp-monetizacion
+│
+├── .env.example              # Variables de entorno (Firebase, MercadoPago, Google Vision)
+├── setup.sh                  # Script de configuración automática
+├── firebase.json             # Configuración Firebase
+├── package.json              # Dependencias
+├── README.md                 # Guía de instalación y uso
+│
+├── /src
+│   ├── /auth
+│   │   ├── firebaseConfig.js     # Configuración Firebase
+│   │   └── authService.js        # Registro/Login
+│   │
+│   ├── /kyc
+│   │   ├── KycScreen.js          # Captura de documento + selfie
+│   │   └── kycValidation.js      # Validación con Google Vision + MercadoPago Identity
+│   │
+│   ├── /content
+│   │   ├── ContentUpload.js      # Subida de fotos/videos
+│   │   └── contentModeration.js  # Moderación automática con Google Vision
+│   │
+│   ├── /monetization
+│   │   └── monetizationService.js # Likes → créditos → USD
+│   │
+│   ├── /withdrawals
+│   │   └── withdrawService.js     # Retiros con MercadoPago
+│   │
+│   ├── /admin
+│   │   └── AdminDashboard.js      # Panel de administración
+│   │
+│   └── /user
+│       └── BalanceScreen.js       # Pantalla de usuario final (balance, historial)
+│
+└── /functions
+    ├── antifraud.js               # Escalamiento y antifraude
+    ├── contentModeration.js       # Moderación backend
+    ├── kycValidation.js           # Validación KYC backend
+    └── mercadoPagoIdentity.js     # Validación oficial con MercadoPago]
