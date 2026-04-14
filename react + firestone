@@ -1,0 +1,22 @@
+registrar transaccion
+
+import { db } from "../firebaseConfig";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+
+export const createTransaction = async (userId, type, amount, method) => {
+  try {
+    await addDoc(collection(db, "transactions"), {
+      userId,
+      type, // "retiro" o "conversión"
+      amount,
+      currency: "MXN",
+      method, // "cuenta" o "efectivo"
+      status: "pendiente",
+      createdAt: Timestamp.now(),
+      updatedAt: Timestamp.now(),
+    });
+    console.log("Transacción registrada correctamente");
+  } catch (error) {
+    console.error("Error al registrar transacción:", error);
+  }
+};
