@@ -20,3 +20,129 @@ export const createTransaction = async (userId, type, amount, method) => {
     console.error("Error al registrar transacción:", error);
   }
 };
+
+import { db } from "../firebaseConfig";
+import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
+
+export const getTransactions = async (userId, filterStatus = "todos") => {
+  try {
+    const transactionsRef = collection(db, "transactions");
+    let q;
+
+    if (filterStatus === "todos") {
+      q = query(transactionsRef, where("userId", "==", userId), orderBy("createdAt", "desc"));
+    } else {
+      q = query(
+        transactionsRef,
+        where("userId", "==", userId),
+        where("status", "==", filterStatus),
+        orderBy("createdAt", "desc")
+      );
+    }
+
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error("Error al obtener transacciones:", error);
+    return [];
+  }
+};
+
+import React, { useEffect, useState } from "react";
+import { getTransactions } from "../services/transactions";
+
+const TransactionHistory = ({ userId }) => {
+  const [transactions, setTransactions] = useState([]);
+  const [filter, setFilter] = useState("todos");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getTransactions(userId, filter);
+      setTransactions(data);
+    };
+    fetchData();
+  }, [userId, filter]);
+
+  return (
+    <div className="history-container">
+      <h2>Historial de Transacciones</h2>
+      <div className="filters">
+        {["todos", "pendiente", "completado", "rechazado"].map(status => (
+          <button key={status} onClick={() => setFilter(status)}>
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+          </button>
+        ))}
+      </div>
+      <ul>
+        {transactions.map(tx => (
+          <li key={tx.id}>
+            <strong>{tx.type}</strong> — ${tx.amount} MXN ({tx.status})
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TransactionHistory;
+
+
+import { db } from "../firebaseConfig";
+import { collection, query, where, orderBy, onSnapshot } from "firebase/firestore";
+
+export const listenTransactions = (userId, filterStatus, callback) => {
+  const transactionsRef = collection(db, "transactions");
+  let q;
+
+  if (filterStatus === "todos") {
+    q = query(transactionsRef, where("userId", "==", userId), orderBy("createdAt", "desc"));
+  } else {
+    q = query(
+      transactionsRef,
+      where("userId", "==", userId),
+      where("status", "==", filterStatus),
+      orderBy("createdAt", "desc")
+    );
+  }
+
+  // Escucha en tiempo real
+  return onSnapshot(q, snapshot => {
+    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    callback(data);
+  });
+};
+
+import React, { useEffect, useState } from "react";
+import { listenTransactions } from "../services/transactions";
+
+const TransactionHistory = ({ userId }) => {
+  const [transactions, setTransactions] = useState([]);
+  const [filter, setFilter] = useState("todos");
+
+  useEffect(() => {
+    const unsubscribe = listenTransactions(userId, filter, setTransactions);
+    return () => unsubscribe(); // Limpia el listener al desmontar
+  }, [userId, filter]);
+
+  return (
+    <div className="history-container">
+      <h2>Historial de Transacciones</h2>
+      <div className="filters">
+        {["todos", "pendiente", "completado", "rechazado"].map(status => (
+          <button key={status} onClick={() => setFilter(status)}>
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+          </button>
+        ))}
+      </div>
+      <ul>
+        {transactions.map(tx => (
+          <li key={tx.id}>
+            <strong>{tx.type}</strong> — ${tx.amount} MXN ({tx.status})
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TransactionHistory;
