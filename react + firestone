@@ -181,3 +181,38 @@ const TransactionHistory = ({ userId }) => {
 };
 
 export default TransactionHistory;
+
+import React, { useEffect, useState } from "react";
+import { listenTransactions } from "../services/transactions";
+
+const TransactionHistory = ({ userId }) => {
+  const [transactions, setTransactions] = useState([]);
+  const [filter, setFilter] = useState("todos");
+
+  useEffect(() => {
+    const unsubscribe = listenTransactions(userId, filter, setTransactions);
+    return () => unsubscribe(); // Limpia el listener al desmontar
+  }, [userId, filter]);
+
+  return (
+    <div className="history-container">
+      <h2>Historial de Transacciones</h2>
+      <div className="filters">
+        {["todos", "pendiente", "completado", "rechazado"].map(status => (
+          <button key={status} onClick={() => setFilter(status)}>
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+          </button>
+        ))}
+      </div>
+      <ul>
+        {transactions.map(tx => (
+          <li key={tx.id}>
+            <strong>{tx.type}</strong> — ${tx.amount} MXN ({tx.status})
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TransactionHistory;
