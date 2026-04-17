@@ -1,0 +1,75 @@
+src/auth/register.js
+`javascript
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore'; 
+
+export async function registerUser(email, password, phoneNumber) {
+  const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+  const uid = userCredential.user.uid; 
+
+  await firestore().collection('users').doc(uid).set({
+    email,
+    phoneNumber,
+    likes: 0,
+    credits: 0,
+    identityVerified: false
+  });
+}
+` 
+
+--- 
+
+functions/index.js
+`javascript
+const functions = require("firebase-functions");
+const mercadopago = require("mercadopago");
+const vision = require('@google-cloud/vision'); 
+
+mercadopago.configure({
+  accesstoken: "YOURMERCADOPAGOACCESSTOKEN"
+}); 
+
+const client = new vision.ImageAnnotatorClient(); 
+
+// Moderación de imágenes
+exports.moderateImage = functions.https.onCall(async (data, context) => {
+  const [result] = await client.safeSearchDetection(data.imageUri);
+  const safe = result.safeSearchAnnotation; 
+
+  if (safe.adult === 'LIKELY' || safe.violence === 'LIKELY') {
+    throw new functions.https.HttpsError("failed-precondition", "Contenido inapropiado detectado.");
+  }
+  return "Imagen aprobada";
+}); 
+
+// Retiros con MercadoPago
+exports.withdrawCredits = functions.https.onCall(async (data, context) => {
+  const { credits, email, identityVerified } = data; 
+
+  if (!identityVerified) {
+    throw new functions.https.HttpsError("failed-precondition", "Debes validar tu identidad.");
+  } 
+
+  const usd = credits * 1;
+  if (usd < 20) {
+    throw new functions.https.HttpsError("failed-precondition", "El retiro mínimo es de 20 USD.");
+  } 
+
+  const exchangeRate = 17;
+  const feeRate = 0.05;
+  const mxn = usd * exchangeRate;
+  const fee = mxn * feeRate;
+  const finalAmount = mxn - fee; 
+
+  const payment = await mercadopago.payment.create({
+    transaction_amount: finalAmount,
+    description: "Retiro de créditos",
+    paymentmethodid: "transfer",
+    payer: { email }
+  }); 
+
+  return { finalAmount, fee, payment };
+});
+` 
+
+---
