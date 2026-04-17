@@ -9,4 +9,3 @@
   }
 }
 
-firebase deploy --only functions
