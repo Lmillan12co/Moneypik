@@ -8,3 +8,5 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
 }
+
+firebase deploy --only functions
