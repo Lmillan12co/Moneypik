@@ -1,0 +1,50 @@
+/src/auth → Registro y login con Firebase Authentication.  
+- /src/kyc → Validación de identidad (documentos + selfie).  
+- /src/content → Subida de fotos/videos + moderación automática.  
+- /src/monetization → Lógica de likes → créditos → USD.  
+- /src/withdrawals → Retiros con MercadoPago (mínimo 20 USD + tarifa).  
+- /src/admin → Panel de administración con estadísticas y control de usuarios.  
+- /functions → Firebase Cloud Functions (backend seguro).  
+- firebase.json → Configuración del proyecto.  
+
+
+Primeros pasos en tu máquina 
+
+1. Clonar el repositorio  
+   `bash
+   git clone https://github.com/tuusuario/tuapp-monetizacion.git
+   cd tuapp-monetizacion
+   ` 
+
+2. Instalar dependencias  
+   `bash
+   npm install
+   ` 
+
+3. Configurar Firebase  
+   - Crear un proyecto en Firebase.  
+   - Activar Authentication, Firestore y Storage.  
+   - Copiar las credenciales en firebase.json. 
+
+4. Configurar MercadoPago  
+   - Crear cuenta de desarrollador en MercadoPago Developers (mercadopago.com.mx in Bing).  
+   - Obtener ACCESS_TOKEN.  
+   - Guardarlo en las funciones de Firebase. 
+
+5. Deploy del backend  
+   `bash
+   firebase deploy --only functions
+   ` 
+
+6. Ejecutar la app en tu móvil  
+   `bash
+   npx react-native run-android
+   ` 
+
+--- 
+
+🔒 Seguridad incluida
+- Validación de identidad con documentos vigentes (pasaporte, licencia, INE).  
+- Moderación automática de fotos y videos (Google Vision API).  
+- Control de duplicados y límite de usuarios.  
+- Retiros seguros con MercadoPago.  

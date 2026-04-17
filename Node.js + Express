@@ -1,0 +1,61 @@
+Webhook MercadoPago → Firestore
+
+`js
+import express from "express";
+import bodyParser from "body-parser";
+import { db } from "./firebaseConfig.js";
+import { doc, updateDoc, Timestamp } from "firebase/firestore";
+
+const app = express();
+app.use(bodyParser.json());
+
+// Endpoint que MercadoPago llamará
+app.post("/webhook/mercadopago", async (req, res) => {
+  try {
+    const { type, data } = req.body;
+
+    // Ejemplo: type = "payment", data.id = ID del pago
+    if (type === "payment") {
+      const paymentId = data.id;
+
+      // Aquí deberías consultar la API de MercadoPago para obtener detalles
+      const paymentInfo = await fetch(
+        https://api.mercadopago.com/v1/payments/${paymentId},
+        {
+          headers: {
+            Authorization: Bearer ${process.env.MPACCESSTOKEN},
+          },
+        }
+      ).then(res => res.json());
+
+      const status = paymentInfo.status; // "approved", "pending", "rejected"
+      const referenceId = paymentInfo.external_reference; // tu transactionId en Firestore
+
+      // Actualizar Firestore
+      const txRef = doc(db, "transactions", referenceId);
+      await updateDoc(txRef, {
+        status: status === "approved" ? "completado" : status,
+        updatedAt: Timestamp.now(),
+      });
+
+      console.log(Transacción ${referenceId} actualizada a ${status});
+    }
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error("Error en webhook:", error);
+    res.sendStatus(500);
+  }
+});
+
+export default app;
+`
+
+---
+
+🔹 Flujo de integración
+1. Registrar transacción en Firestore con status: "pendiente" y guardar referenceId (tu propio ID).  
+2. MercadoPago envía notificación al webhook cuando cambia el estado del pago/retiro.  
+3. El webhook consulta la API de MercadoPago para confirmar el estado real.  
+4. Firestore se actualiza automáticamente con "completado" o "rechazado".  
+5. Tu app escucha con onSnapshot y el historial se refresca en tiempo real.  
