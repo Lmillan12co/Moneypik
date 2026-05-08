@@ -63,3 +63,14 @@ Thumbs.db
 
 # Webdev artifacts (checkpoint zips, migrations, etc.)
 .webdev/
+
+# Environment variables (never commit secrets)
+.env
+.env.local
+.env.production
+
+# Play Store assets (large files, download from releases)
+playstore-assets/*.png
+
+# Database
+drizzle/migrations/
