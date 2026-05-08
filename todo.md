@@ -47,3 +47,11 @@
 - [x] Logo generado y configurado
 - [x] Splash screen actualizado
 - [x] app.config.ts actualizado con nombre "Moneypik" y logo
+
+## Publicación en Google Play Store
+- [ ] Política de privacidad
+- [ ] Términos de uso
+- [ ] Ficha de tienda (descripción corta, larga, categoría, palabras clave)
+- [ ] Capturas de pantalla para Play Store (1080x1920px)
+- [ ] Gráfico de función (Feature Graphic 1024x500px)
+- [ ] Guía paso a paso de publicación
