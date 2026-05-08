@@ -14,10 +14,49 @@ type IconSymbolName = keyof typeof MAPPING;
  * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
  */
 const MAPPING = {
+  // Navigation
   "house.fill": "home",
+  "person.fill": "person",
+  "bell.fill": "notifications",
+  "gearshape.fill": "settings",
+  "magnifyingglass": "search",
   "paperplane.fill": "send",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
+  "chevron.left": "chevron-left",
+  "xmark": "close",
+  "xmark.circle.fill": "cancel",
+  // Monetization
+  "heart.fill": "favorite",
+  "heart": "favorite-border",
+  "dollarsign.circle.fill": "monetization-on",
+  "wallet.pass.fill": "account-balance-wallet",
+  "arrow.up.right.circle": "arrow-upward",
+  "arrow.down.circle": "arrow-downward",
+  "creditcard.fill": "credit-card",
+  "banknote.fill": "payments",
+  // Content
+  "plus.circle.fill": "add-circle",
+  "photo.fill": "photo",
+  "video.fill": "videocam",
+  "camera.fill": "camera-alt",
+  "square.grid.2x2.fill": "grid-view",
+  "list.bullet": "list",
+  // User
+  "star.fill": "star",
+  "checkmark.circle.fill": "check-circle",
+  "exclamationmark.circle.fill": "error",
+  "info.circle.fill": "info",
+  "lock.fill": "lock",
+  "eye.fill": "visibility",
+  "eye.slash.fill": "visibility-off",
+  "trash.fill": "delete",
+  "pencil": "edit",
+  "square.and.arrow.up": "share",
+  "arrow.right.circle.fill": "arrow-forward",
+  "checkmark.seal.fill": "verified",
+  "clock.fill": "history",
+  "trophy.fill": "emoji-events",
 } as IconMapping;
 
 /**
