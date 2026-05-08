@@ -1,0 +1,1 @@
+firebase functions:config:set mercadopago.token="TU_TOKEN_PRIVADO"
