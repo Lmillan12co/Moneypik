@@ -49,12 +49,17 @@ export function getSessionCookieOptions(
 ): Pick<CookieOptions, "domain" | "httpOnly" | "path" | "sameSite" | "secure"> {
   const hostname = req.hostname;
   const domain = getParentDomain(hostname);
+  const isSecure = isSecureRequest(req);
+
+  // For development/preview environments, use lax SameSite to allow cookies in redirects
+  // For production HTTPS, use none with secure flag for cross-site requests
+  const sameSite = isSecure ? "none" : "lax";
 
   return {
     domain,
     httpOnly: true,
     path: "/",
-    sameSite: "none",
-    secure: isSecureRequest(req),
+    sameSite,
+    secure: isSecure,
   };
 }
