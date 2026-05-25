@@ -169,7 +169,7 @@ export default function UploadScreen() {
                 justifyContent: "center",
               }}
             >
-              <IconSymbol name="xmark" size={16} color="#FFF" />
+              <IconSymbol name="xmark.circle.fill" size={24} color="#FFF" />
             </TouchableOpacity>
           </View>
         ) : (
@@ -193,7 +193,7 @@ export default function UploadScreen() {
                   gap: 8,
                 }}
               >
-                <IconSymbol name="photo.fill" size={32} color={colors.primary} />
+                <IconSymbol name="square.grid.2x2.fill" size={32} color={colors.primary} />
                 <Text style={{ color: colors.primary, fontWeight: "600", fontSize: 13 }}>Galería</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -204,15 +204,15 @@ export default function UploadScreen() {
                   borderRadius: 16,
                   borderWidth: 2,
                   borderStyle: "dashed",
-                  borderColor: colors.secondary,
+                  borderColor: "#F59E0B",
                   alignItems: "center",
                   justifyContent: "center",
                   backgroundColor: colors.surface,
                   gap: 8,
                 }}
               >
-                <IconSymbol name="camera.fill" size={32} color={colors.secondary} />
-                <Text style={{ color: colors.secondary, fontWeight: "600", fontSize: 13 }}>Cámara</Text>
+                <IconSymbol name="camera.fill" size={32} color="#F59E0B" />
+                <Text style={{ color: "#F59E0B", fontWeight: "600", fontSize: 13 }}>Cámara</Text>
               </TouchableOpacity>
             </View>
           </View>
