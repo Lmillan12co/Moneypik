@@ -74,3 +74,4 @@ playstore-assets/*.png
 
 # Database
 drizzle/migrations/
+.project-config.json

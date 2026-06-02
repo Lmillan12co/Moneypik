@@ -110,6 +110,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="explore"
+        options={{
+          title: "Explorar",
+          tabBarIcon: ({ color }) => <IconSymbol size={26} name="magnifyingglass" color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           title: "Perfil",
@@ -119,6 +126,13 @@ export default function TabLayout() {
               <NotificationBadge count={unreadCount} />
             </View>
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Ajustes",
+          tabBarIcon: ({ color }) => <IconSymbol size={26} name="gear" color={color} />,
         }}
       />
     </Tabs>

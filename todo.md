@@ -12,15 +12,15 @@
 - [x] Pantalla de perfil de usuario con estadísticas
 - [x] Pantalla de editar perfil (username, bio, email MercadoPago)
 - [x] Subida de avatar desde galería
-- [ ] Pantalla de onboarding (3 slides) - pendiente
+- [x] Pantalla de onboarding (3 slides)
 - [ ] Pantalla de registro separada - no requerida (OAuth)
 
 ## Feed y Contenido
 - [x] Pantalla de feed principal (Home) con FlatList
 - [x] PostCard: card de foto con like button
 - [x] Pantalla de subir contenido (foto desde galería o cámara)
-- [ ] Pantalla de detalle de publicación - pendiente
-- [ ] Pantalla de explorar/descubrir - pendiente
+- [x] Pantalla de explorar/descubrir contenido
+- [x] Pantalla de explorar/descubrir
 
 ## Monetización
 - [x] Pantalla de Wallet con balance, estadísticas y retiros
@@ -33,7 +33,7 @@
 - [x] Pantalla de notificaciones con tipos (like, retiro, sistema)
 - [x] Badge de notificaciones no leídas en tab de Perfil
 - [x] Marcar notificaciones como leídas
-- [ ] Pantalla de configuración general - pendiente
+- [x] Pantalla de configuración general
 
 ## Backend / Base de Datos
 - [x] Esquema de base de datos (users, profiles, posts, likes, transactions, notifications)
@@ -48,10 +48,16 @@
 - [x] Splash screen actualizado
 - [x] app.config.ts actualizado con nombre "Moneypik" y logo
 
+## Tests Automatizados
+- [x] Tests de autenticación (9 tests)
+- [x] Tests de posts y likes (10 tests)
+- [x] Tests de wallet y retiros (13 tests)
+- [x] Todos los tests pasando (32 tests)
+
 ## Publicación en Google Play Store
-- [ ] Política de privacidad
-- [ ] Términos de uso
-- [ ] Ficha de tienda (descripción corta, larga, categoría, palabras clave)
-- [ ] Capturas de pantalla para Play Store (1080x1920px)
-- [ ] Gráfico de función (Feature Graphic 1024x500px)
-- [ ] Guía paso a paso de publicación
+- [x] Política de privacidad
+- [x] Términos de uso
+- [x] Ficha de tienda (descripción corta, larga, categoría, palabras clave)
+- [x] Capturas de pantalla para Play Store (1080x1920px)
+- [x] Gráfico de función (Feature Graphic 1024x500px)
+- [x] Guía paso a paso de publicación
