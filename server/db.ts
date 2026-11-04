@@ -181,54 +181,29 @@ export async function deletePost(postId: number, userId: number) {
 
 // ─── LIKES ───────────────────────────────────────────────────────────────────
 
-export async function hasUserLikedPost(userId: number, postId: number) {
-  const db = await getDb();
-  if (!db) return false;
-  const result = await db
-    .select()
-    .from(likes)
-    .where(and(eq(likes.userId, userId), eq(likes.postId, postId)))
-    .limit(1);
-  return result.length > 0;
-}
+like: protectedProcedure
+  .input(z.object({ postId: z.number() }))  // ← se quitó postOwnerId
+  .mutation(async ({ ctx, input }) => {
+    // Siempre obtener el dueño del post desde la BD (nunca confiar en el cliente)
+    const post = await db.getPost(input.postId);
+    if (!post || !post.isActive) {
+      throw new Error("Publicación no encontrada");
+    }
 
-export async function likePost(userId: number, postId: number, postOwnerId: number) {
-  const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  const CREDIT_PER_LIKE = "0.01";
+    // No permitir self-like (evita generar créditos a uno mismo)
+    if (post.userId === ctx.user.id) {
+      throw new Error("No puedes darte like a ti mismo");
+    }
 
-  await db.insert(likes).values({ userId, postId });
-  await db.update(posts).set({ likesCount: sql`${posts.likesCount} + 1` }).where(eq(posts.id, postId));
-  await db.update(profiles).set({
-    totalLikesReceived: sql`${profiles.totalLikesReceived} + 1`,
-    totalCredits: sql`${profiles.totalCredits} + ${CREDIT_PER_LIKE}`,
-  }).where(eq(profiles.userId, postOwnerId));
-  await db.insert(transactions).values({
-    userId: postOwnerId,
-    type: "credit_earned",
-    amount: CREDIT_PER_LIKE,
-    currency: "USD",
-    status: "completed",
-    description: "Crédito por like recibido",
-    postId,
-  });
-  if (postOwnerId !== userId) {
-    await db.insert(notifications).values({
-      userId: postOwnerId,
-      type: "new_like",
-      title: "¡Nuevo like!",
-      message: "Alguien le dio like a tu publicación",
-      postId,
-    });
-  }
-}
+    const alreadyLiked = await db.hasUserLikedPost(ctx.user.id, input.postId);
+    if (alreadyLiked) {
+      await db.unlikePost(ctx.user.id, input.postId, post.userId);
+      return { liked: false };
+    }
 
-export async function unlikePost(userId: number, postId: number) {
-  const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  await db.delete(likes).where(and(eq(likes.userId, userId), eq(likes.postId, postId)));
-  await db.update(posts).set({ likesCount: sql`GREATEST(${posts.likesCount} - 1, 0)` }).where(eq(posts.id, postId));
-}
+    await db.likePost(ctx.user.id, input.postId, post.userId);
+    return { liked: true };
+  }),
 
 // ─── TRANSACTIONS ─────────────────────────────────────────────────────────────
 
