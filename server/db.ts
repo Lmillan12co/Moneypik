@@ -204,7 +204,18 @@ like: protectedProcedure
     await db.likePost(ctx.user.id, input.postId, post.userId);
     return { liked: true };
   }),
+export async function unlikePost(userId: number, postId: number, postOwnerId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const CREDIT_PER_LIKE = "0.01";
 
+  await db.delete(likes).where(and(eq(likes.userId, userId), eq(likes.postId, postId)));
+  await db.update(posts).set({ likesCount: sql`GREATEST(${posts.likesCount} - 1, 0)` }).where(eq(posts.id, postId));
+  await db.update(profiles).set({
+    totalLikesReceived: sql`GREATEST(${profiles.totalLikesReceived} - 1, 0)`,
+    totalCredits: sql`GREATEST(${profiles.totalCredits} - ${CREDIT_PER_LIKE}, 0)`,
+  }).where(eq(profiles.userId, postOwnerId));
+}
 // ─── TRANSACTIONS ─────────────────────────────────────────────────────────────
 
 export async function getUserTransactions(userId: number, limit = 20) {
