@@ -1,10 +1,10 @@
 # Política de Privacidad de Moneypik
 
-**Última actualización:** 8 de mayo de 2026
+**Última actualización:** 24 de noviembre de 2026
 
 **Desarrollador:** Moneypik  
 **Contacto:** privacidad@moneypik.app  
-**Sitio web:** https://moneypik.app
+**Sitio web:** https://lmillan12co.github.io/Moneypik/
 
 ---
 
@@ -33,6 +33,7 @@ Durante el uso de la aplicación, recopilamos automáticamente:
 
 - **Datos de actividad:** likes otorgados y recibidos, publicaciones creadas, historial de transacciones y retiros.
 - **Datos de notificaciones:** registro de notificaciones enviadas y su estado de lectura.
+- **Datos de moderación:** reportes que usted envía sobre publicaciones o usuarios, y los usuarios que usted bloquea. Los usamos para revisar abusos y hacer cumplir los Términos de Uso.
 - **Datos técnicos:** tipo de dispositivo, versión del sistema operativo y datos de diagnóstico de errores (no incluyen información personal identificable).
 
 ### 2.3 Permisos del dispositivo
@@ -44,6 +45,8 @@ La aplicación solicita los siguientes permisos para funcionar correctamente:
 | Acceso a la galería de fotos | Seleccionar imágenes para subir como contenido |
 | Acceso a la cámara | Tomar fotos directamente desde la app |
 | Notificaciones push | Informar sobre nuevos likes, retiros procesados y actualizaciones del sistema |
+
+La aplicación **no solicita acceso al micrófono** ni graba audio.
 
 Todos los permisos son opcionales en la medida en que la ley lo permita. Puede revocarlos en cualquier momento desde la configuración de su dispositivo.
 
@@ -58,6 +61,8 @@ Utilizamos la información recopilada para los siguientes fines:
 **Comunicaciones.** Enviar notificaciones sobre actividad en su cuenta (nuevos likes, estado de retiros, actualizaciones del sistema). Puede desactivar las notificaciones en cualquier momento desde la configuración de la aplicación o de su dispositivo.
 
 **Seguridad y prevención de fraude.** Detectar y prevenir actividades fraudulentas, abusos del sistema o violaciones de nuestros Términos de Uso, especialmente en lo relacionado con el sistema de monetización.
+
+**Moderación de contenido.** Revisar los reportes de publicaciones y usuarios, ocultar contenido que viole los Términos y aplicar bloqueos.
 
 **Mejora del servicio.** Analizar patrones de uso agregados y anónimos para mejorar la experiencia de usuario y las funcionalidades de la aplicación.
 
@@ -85,13 +90,36 @@ Los datos de la cuenta se conservan mientras su cuenta esté activa. Si elimina 
 
 ---
 
-## 6. Sus derechos
+## 6. Eliminación de cuenta
+
+Usted puede eliminar su cuenta y todos sus datos personales en cualquier momento, por dos vías:
+
+**Desde la app (inmediata).** Configuración → Eliminar Cuenta. Se le pedirá confirmar dos veces. Al confirmar, se borran su perfil, sus publicaciones, sus likes, su saldo, su historial de transacciones y sus notificaciones, y se cierra su sesión. Si tiene un retiro pendiente de pago, primero debe resolverse: la app le avisará y podrá escribir a soporte@moneypik.app.
+
+**Desde la web.** En https://lmillan12co.github.io/Moneypik/eliminar-cuenta/ puede dejar el email con el que se registró y solicitar el borrado sin tener la app instalada. Procesaremos su solicitud en un máximo de 30 días. Este enlace es también el enlace oficial de borrado de cuenta registrado en Google Play.
+
+Al eliminar su cuenta, los reportes que otros usuarios hayan hecho sobre su contenido se conservan sin identificarlo (para la auditoría de moderación), y los reportes que usted hizo se eliminan.
+
+---
+
+## 7. Moderación de contenido
+
+Moneypik es una plataforma con contenido generado por usuarios. Para mantenerla segura:
+
+- **Reportar:** en cada publicación puede tocar el menú (•••) y elegir "Reportar publicación" o "Reportar usuario", indicando el motivo (spam, contenido sexual, violencia, acoso, fraude u otro).
+- **Bloquear:** desde el mismo menú puede bloquear a un usuario; sus publicaciones dejarán de aparecer en su feed. Puede desbloquearlo en Configuración → Usuarios bloqueados.
+- **Revisión:** nuestro equipo revisa todos los reportes. El contenido que viole los Términos de Uso se oculta. No revelamos quién hizo el reporte.
+- **Términos:** antes de subir contenido, usted acepta los Términos de Uso, que definen y prohíben el contenido objetable (sección 4 de los Términos).
+
+---
+
+## 8. Sus derechos
 
 Dependiendo de su jurisdicción, usted puede tener los siguientes derechos respecto a su información personal:
 
 - **Acceso:** Solicitar una copia de los datos personales que tenemos sobre usted.
 - **Rectificación:** Corregir información inexacta directamente desde la sección "Editar perfil" de la aplicación.
-- **Eliminación:** Solicitar la eliminación de su cuenta y datos personales.
+- **Eliminación:** Solicitar la eliminación de su cuenta y datos personales (ver sección 6).
 - **Portabilidad:** Solicitar una exportación de sus datos en formato legible por máquina.
 - **Oposición:** Oponerse al procesamiento de sus datos para determinados fines.
 
@@ -99,30 +127,31 @@ Para ejercer cualquiera de estos derechos, contáctenos en **privacidad@moneypik
 
 ---
 
-## 7. Privacidad de menores
+## 9. Privacidad de menores
 
 Moneypik no está dirigida a personas menores de 18 años. No recopilamos conscientemente información personal de menores. Si descubrimos que hemos recopilado información de un menor sin el consentimiento parental verificable, eliminaremos dicha información de inmediato. Si usted es padre o tutor y cree que su hijo ha proporcionado información personal, contáctenos en **privacidad@moneypik.app**.
 
 ---
 
-## 8. Transferencias internacionales de datos
+## 10. Transferencias internacionales de datos
 
 Su información puede ser procesada y almacenada en servidores ubicados fuera de su país de residencia. Al usar Moneypik, usted consiente la transferencia de su información a estos servidores, que pueden estar sujetos a leyes de privacidad diferentes a las de su país.
 
 ---
 
-## 9. Cambios a esta política
+## 11. Cambios a esta política
 
 Podemos actualizar esta Política de Privacidad periódicamente. Le notificaremos sobre cambios significativos a través de una notificación en la aplicación o por correo electrónico. Le recomendamos revisar esta política regularmente. El uso continuado de la aplicación después de la publicación de cambios constituye su aceptación de la política actualizada.
 
 ---
 
-## 10. Contacto
+## 12. Contacto
 
 Si tiene preguntas, inquietudes o solicitudes relacionadas con esta Política de Privacidad, puede contactarnos:
 
 - **Correo electrónico:** privacidad@moneypik.app
-- **Sitio web:** https://moneypik.app/privacidad
+- **Borrado de cuenta (web):** https://lmillan12co.github.io/Moneypik/eliminar-cuenta/
+- **Sitio web:** https://lmillan12co.github.io/Moneypik/privacidad/
 
 ---
 

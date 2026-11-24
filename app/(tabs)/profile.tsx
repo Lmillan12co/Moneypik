@@ -20,7 +20,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { trpc } from "@/lib/trpc";
 import { router } from "expo-router";
 
-function EditProfileModal({ visible, onClose, profile }: {
+export function EditProfileModal({ visible, onClose, profile }: {
   visible: boolean; onClose: () => void;
   profile: { username?: string | null; bio?: string | null; mercadoPagoEmail?: string | null };
 }) {

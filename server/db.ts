@@ -181,29 +181,30 @@ export async function deletePost(postId: number, userId: number) {
 
 // ─── LIKES ───────────────────────────────────────────────────────────────────
 
-like: protectedProcedure
-  .input(z.object({ postId: z.number() }))  // ← se quitó postOwnerId
-  .mutation(async ({ ctx, input }) => {
-    // Siempre obtener el dueño del post desde la BD (nunca confiar en el cliente)
-    const post = await db.getPost(input.postId);
-    if (!post || !post.isActive) {
-      throw new Error("Publicación no encontrada");
-    }
+export async function hasUserLikedPost(userId: number, postId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db
+    .select()
+    .from(likes)
+    .where(and(eq(likes.userId, userId), eq(likes.postId, postId)))
+    .limit(1);
+  return result.length > 0;
+}
 
-    // No permitir self-like (evita generar créditos a uno mismo)
-    if (post.userId === ctx.user.id) {
-      throw new Error("No puedes darte like a ti mismo");
-    }
+export async function likePost(userId: number, postId: number, postOwnerId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const CREDIT_PER_LIKE = "0.01";
 
-    const alreadyLiked = await db.hasUserLikedPost(ctx.user.id, input.postId);
-    if (alreadyLiked) {
-      await db.unlikePost(ctx.user.id, input.postId, post.userId);
-      return { liked: false };
-    }
+  await db.insert(likes).values({ userId, postId });
+  await db.update(posts).set({ likesCount: sql`${posts.likesCount} + 1` }).where(eq(posts.id, postId));
+  await db.update(profiles).set({
+    totalLikesReceived: sql`${profiles.totalLikesReceived} + 1`,
+    totalCredits: sql`${profiles.totalCredits} + ${CREDIT_PER_LIKE}`,
+  }).where(eq(profiles.userId, postOwnerId));
+}
 
-    await db.likePost(ctx.user.id, input.postId, post.userId);
-    return { liked: true };
-  }),
 export async function unlikePost(userId: number, postId: number, postOwnerId: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");

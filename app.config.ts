@@ -6,7 +6,7 @@ import type { ExpoConfig } from "expo/config";
 // e.g., "my-app" created at 2024-01-15 10:30:45 -> "space.manus.my.app.t20240115103045"
 // Bundle ID can only contain letters, numbers, and dots
 // Android requires each dot-separated segment to start with a letter
-const rawBundleId = "space.manus.moneypik.t20260508072205";
+const rawBundleId = "com.moneypik.app";
 const bundleId =
   rawBundleId
     .replace(/[-_]/g, ".") // Replace hyphens/underscores with dots
@@ -33,7 +33,7 @@ const env = {
   // S3 URL of the app logo - set this to the URL returned by generate_image when creating custom logo
   // Leave empty to use the default icon from assets/images/icon.png
   logoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310519663639924158/6Pxxi6WdRASeN2u49QBKnM/icon-LPB3iaqLKtatxmDGrxegqr.png",
-  scheme: schemeFromBundleId,
+  scheme: "moneypik",
   iosBundleId: bundleId,
   androidPackage: bundleId,
 };
@@ -86,12 +86,7 @@ const config: ExpoConfig = {
   },
   plugins: [
     "expo-router",
-    [
-      "expo-audio",
-      {
-        microphonePermission: "Allow $(PRODUCT_NAME) to access your microphone.",
-      },
-    ],
+    "./plugins/with-remove-record-audio",
     [
       "expo-video",
       {
@@ -115,8 +110,11 @@ const config: ExpoConfig = {
       "expo-build-properties",
       {
         android: {
-          buildArchs: ["armeabi-v7a", "arm64-v8a"],
+          compileSdkVersion: 36,
+          targetSdkVersion: 36,
+          buildToolsVersion: "36.0.0",
           minSdkVersion: 24,
+          buildArchs: ["armeabi-v7a", "arm64-v8a"],
         },
       },
     ],

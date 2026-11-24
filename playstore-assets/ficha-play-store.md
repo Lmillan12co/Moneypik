@@ -2,6 +2,8 @@
 
 Este documento contiene todo el texto listo para copiar y pegar en la consola de Google Play al crear la ficha de la aplicación.
 
+> **Corrección del 24 nov 2026:** se quitaron dos afirmaciones engañosas de la versión anterior: el supuesto "cifrado de extremo a extremo" (la app usa TLS; no hay cifrado de extremo a extremo) y los retiros "con solo unos toques" (los retiros son manuales y tardan 1 a 3 días hábiles). La nota de moderación ahora describe el mecanismo real (reportar y bloquear dentro de la app). No copiar la versión anterior de este archivo.
+
 ---
 
 ## Información básica de la app
@@ -52,21 +54,22 @@ En Moneypik, cada interacción cuenta. No necesitas miles de seguidores para emp
 ✅ Feed de contenido: Descubre publicaciones de otros creadores y apoya su trabajo con likes
 ✅ Subida fácil: Sube fotos desde tu galería o toma una directamente con la cámara
 ✅ Wallet integrada: Visualiza tu saldo en USD, historial de ganancias y estadísticas en tiempo real
-✅ Retiros seguros: Transfiere tu dinero a MercadoPago con solo unos toques
+✅ Retiros a MercadoPago: Solicita tu retiro desde la wallet cuando tengas $20 USD o más; el pago se procesa manualmente en 1 a 3 días hábiles
 ✅ Notificaciones: Recibe alertas instantáneas cuando alguien le da like a tu contenido
 ✅ Perfil personalizable: Crea tu identidad como creador con foto, nombre de usuario y biografía
+✅ Reportar y bloquear: Si ves contenido inapropiado, repórtalo desde la publicación o bloquea al usuario
 
 💸 SISTEMA DE MONETIZACIÓN TRANSPARENTE
 
 - 1 like recibido = $0.01 USD en tu wallet
 - Retiro mínimo: $20.00 USD
 - Tarifa de servicio: solo 5% sobre el monto retirado
-- Procesamiento en 1 a 3 días hábiles
+- Procesamiento en 1 a 3 días hábiles (manual, a través de MercadoPago)
 - Sin suscripciones ni costos ocultos
 
 🔒 SEGURO Y CONFIABLE
 
-Tu información financiera está protegida con cifrado de extremo a extremo. Los retiros se procesan exclusivamente a través de MercadoPago, la plataforma de pagos más confiable de Latinoamérica.
+Tu información viaja cifrada (TLS/HTTPS) y se guarda en servidores seguros. Los retiros se procesan exclusivamente a través de MercadoPago, la plataforma de pagos más confiable de Latinoamérica.
 
 📊 PARA CREADORES DE TODO TIPO
 
@@ -94,10 +97,18 @@ ganar dinero, monetizar contenido, creadores de contenido, ingresos pasivos, mer
 ## URL de la Política de Privacidad
 
 ```
-https://moneypik.app/privacidad
+https://lmillan12co.github.io/Moneypik/privacidad/
 ```
 
-> **Nota:** Debes publicar la política de privacidad en una URL pública antes de enviar la app a revisión. Puedes usar GitHub Pages, Notion, Google Sites o cualquier hosting gratuito.
+> **Nota:** Debes publicar la política de privacidad en una URL pública antes de enviar la app a revisión. El texto corregido está en `playstore-assets/politica-de-privacidad.md`. Opciones: publicarla con la web de la app (Expo web, salida estática) en un hosting gratuito, o en GitHub Pages desde el repo. La URL que se pegue en Play Console debe ser la real y debe abrir.
+
+## URL de borrado de cuenta (para Play Console)
+
+```
+https://lmillan12co.github.io/Moneypik/eliminar-cuenta/
+```
+
+> Es la página nueva `app/web/eliminar-cuenta.tsx`. Debe publicarse en el mismo hosting que la política de privacidad. Sin esta URL, Play no acepta el envío.
 
 ---
 
@@ -107,12 +118,14 @@ https://moneypik.app/privacidad
 soporte@moneypik.app
 ```
 
+> **Verificar:** confirmar que el dominio moneypik.app existe y que los correos privacidad@moneypik.app y soporte@moneypik.app funcionan. Si no, cambiar el contacto por un email que Laura controle y actualizar la política, la ficha y la app.
+
 ---
 
 ## Sitio web del desarrollador
 
 ```
-https://moneypik.app
+https://lmillan12co.github.io/Moneypik/
 ```
 
 ---
@@ -148,7 +161,7 @@ En la sección **"Seguridad de los datos"** de Play Console, declara lo siguient
 | Actividad en la app (likes, publicaciones) | Sí | No | Analytics, funcionalidad |
 | Información financiera (email de pago) | Sí | Con procesador de pagos | Procesamiento de pagos |
 
-Marca que los datos se cifran en tránsito y que el usuario puede solicitar la eliminación de sus datos.
+Marca que los datos se cifran en tránsito y que el usuario puede solicitar la eliminación de sus datos (en la app y por el enlace web). No declares cifrado de extremo a extremo: la app usa TLS, no E2EE.
 
 ---
 
@@ -157,6 +170,7 @@ Marca que los datos se cifran en tránsito y que el usuario puede solicitar la e
 Si Google solicita información adicional durante la revisión, ten preparado:
 
 1. **Demostración del flujo de monetización:** Capturas de pantalla o video mostrando cómo funciona el sistema de likes → créditos → retiro.
-2. **Evidencia de integración con MercadoPago:** Documentación de la API de MercadoPago utilizada.
-3. **Política de moderación de contenido:** Descripción de cómo moderas el contenido generado por usuarios (puedes mencionar que los usuarios pueden reportar contenido inapropiado y que el equipo lo revisa manualmente).
-4. **Cuenta de prueba:** Google puede solicitar credenciales de una cuenta de prueba para revisar la app. Prepara una cuenta demo con saldo ficticio.
+2. **Evidencia de integración con MercadoPago:** los retiros son manuales (no hay integración con la API de MercadoPago): el usuario solicita el retiro en la app y el equipo lo paga a mano en 1 a 3 días hábiles. No presentes documentación de API que no se usa.
+3. **Política de moderación de contenido:** los usuarios pueden reportar publicaciones y usuarios desde el menú (•••) de cada publicación, y bloquear usuarios; los reportes los revisa el equipo y el contenido que viola los Términos se oculta. La cola de reportes es solo para administradores.
+4. **Cuenta de prueba:** Google puede solicitar credenciales de una cuenta de prueba para revisar la app. Prepara una cuenta demo con saldo ficticio. El login es Manus OAuth: verificar que el revisor puede entrar sin tener cuenta de Manus.
+5. **Borrado de cuenta:** mostrar dónde está en la app (Configuración → Eliminar Cuenta) y el enlace web registrado en Play Console.

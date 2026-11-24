@@ -1,3 +1,17 @@
+/**
+ * Moneypik — Esquema de base de datos (Drizzle / MySQL).
+ *
+ * REEMPLAZO COMPLETO de drizzle/schema.ts del repo (commit f43fce3).
+ * Todo lo que ya existía está igual; al final se añadieron 3 tablas
+ * nuevas para cumplir las políticas de Google Play (ver migración
+ * drizzle/0002_add_moderation_and_deletion.sql):
+ *   - reports: reportes de publicaciones o usuarios (moderación UGC).
+ *   - userBlocks: bloqueos entre usuarios.
+ *   - deletionRequests: solicitudes de borrado de cuenta desde la web.
+ *
+ * Después de copiar este archivo al repo, correr: pnpm db:push
+ * (drizzle-kit generate && drizzle-kit migrate).
+ */
 import {
   int,
   mysqlTable,
@@ -90,6 +104,46 @@ export const notifications = mysqlTable("notifications", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+// ─── NUEVO: MODERACIÓN DE CONTENIDO Y BORRADO DE CUENTA ─────────────────────
+
+/**
+ * Reportes de contenido o de usuarios (política de contenido generado
+ * por usuarios de Google Play). Los revisa el equipo (solo admin).
+ * status: pending → reviewed | action_taken | dismissed.
+ */
+export const reports = mysqlTable("reports", {
+  id: int("id").autoincrement().primaryKey(),
+  reporterUserId: int("reporterUserId").notNull(),
+  postId: int("postId"),
+  reportedUserId: int("reportedUserId"),
+  reason: mysqlEnum("reason", ["spam", "contenido_sexual", "violencia", "acoso", "fraude", "otro"]).notNull(),
+  details: text("details"),
+  status: mysqlEnum("status", ["pending", "reviewed", "action_taken", "dismissed"]).default("pending").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+/** Bloqueos entre usuarios: lo que un usuario bloquea no sale en su feed. */
+export const userBlocks = mysqlTable("userBlocks", {
+  id: int("id").autoincrement().primaryKey(),
+  blockerUserId: int("blockerUserId").notNull(),
+  blockedUserId: int("blockedUserId").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+/**
+ * Solicitudes de borrado de cuenta hechas desde la web (sin la app).
+ * El equipo debe procesarlas en un máximo de 30 días.
+ */
+export const deletionRequests = mysqlTable("deletionRequests", {
+  id: int("id").autoincrement().primaryKey(),
+  email: varchar("email", { length: 320 }).notNull(),
+  userId: int("userId"),
+  status: mysqlEnum("status", ["pending", "completed"]).default("pending").notNull(),
+  requestedAt: timestamp("requestedAt").defaultNow().notNull(),
+  processedAt: timestamp("processedAt"),
+});
+
 // Export types
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
@@ -98,8 +152,14 @@ export type Post = typeof posts.$inferSelect;
 export type Like = typeof likes.$inferSelect;
 export type Transaction = typeof transactions.$inferSelect;
 export type Notification = typeof notifications.$inferSelect;
+export type Report = typeof reports.$inferSelect;
+export type UserBlock = typeof userBlocks.$inferSelect;
+export type DeletionRequest = typeof deletionRequests.$inferSelect;
 export type InsertProfile = typeof profiles.$inferInsert;
 export type InsertPost = typeof posts.$inferInsert;
 export type InsertLike = typeof likes.$inferInsert;
 export type InsertTransaction = typeof transactions.$inferInsert;
 export type InsertNotification = typeof notifications.$inferInsert;
+export type InsertReport = typeof reports.$inferInsert;
+export type InsertUserBlock = typeof userBlocks.$inferInsert;
+export type InsertDeletionRequest = typeof deletionRequests.$inferInsert;

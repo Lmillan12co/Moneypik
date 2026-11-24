@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eliminar mi cuenta — Moneypik</title>
+<style>
+  body { margin: 0; background: #0f0520; color: #d1d5db; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.6; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 60px; }
+  a { color: #a78bfa; }
+  h1 { color: #fff; font-size: 30px; line-height: 1.2; margin: 8px 0 16px; }
+  h1 span { color: #7c3aed; }
+  h2 { color: #a78bfa; font-size: 19px; margin: 24px 0 10px; }
+  p { margin: 8px 0; font-size: 15px; }
+  ul { margin: 8px 0; padding-left: 22px; }
+  li { margin: 4px 0; font-size: 15px; }
+  .badge { display: inline-block; background: rgba(124,58,237,.15); border: 1px solid rgba(124,58,237,.3); color: #a78bfa; border-radius: 12px; padding: 4px 14px; font-size: 12px; font-weight: 600; }
+  .card { background: rgba(124,58,237,.06); border: 1px solid rgba(124,58,237,.15); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+  .warn { background: rgba(220,38,38,.08); border: 1px solid rgba(220,38,38,.3); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+  .warn h2 { color: #fca5a5; }
+  label { display: block; font-size: 14px; color: #e9d5ff; margin: 16px 0 6px; }
+  input, textarea { width: 100%; box-sizing: border-box; background: #1e1035; border: 1px solid rgba(124,58,237,.35); border-radius: 10px; color: #fff; padding: 12px; font-size: 15px; font-family: inherit; }
+  input:focus, textarea:focus { outline: 2px solid #7c3aed; outline-offset: 1px; }
+  button { background: #7c3aed; color: #fff; border: none; border-radius: 12px; padding: 14px 24px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 16px; }
+  button:hover { background: #6d28d9; }
+  .note { color: #9ca3af; font-size: 13px; }
+  footer { border-top: 1px solid rgba(124,58,237,.2); margin-top: 40px; padding-top: 24px; color: #4b5563; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div><span class="badge">Moneypik · Borrado de cuenta</span></div>
+  <h1>Eliminar mi <span>cuenta</span></h1>
+  <p>Si ya no quieres usar Moneypik, puedes pedir que borremos tu cuenta y todos tus datos personales. Tu solicitud se procesa en un máximo de <strong>30 días</strong>.</p>
+
+  <div class="warn">
+    <h2>Antes de continuar</h2>
+    <p>Al eliminar tu cuenta se borran de forma permanente:</p>
+    <ul>
+      <li>Tu perfil (nombre de usuario, foto y biografía)</li>
+      <li>Todas tus publicaciones (fotos y videos)</li>
+      <li>Tus likes, tu saldo de créditos y tu historial de transacciones</li>
+      <li>Tus notificaciones y tu correo de MercadoPago registrado</li>
+    </ul>
+    <p><strong>Esta acción no se puede deshacer.</strong> Si tienes un retiro pendiente de pago, primero debe resolverse: escribe a <a href="mailto:soporte@moneypik.app">soporte@moneypik.app</a> y te avisaremos cuando esté listo para borrar la cuenta.</p>
+  </div>
+
+  <div class="card">
+    <h2>La forma más rápida: desde la app</h2>
+    <p>Si tienes la app instalada, es inmediato: <strong>Configuración → Eliminar Cuenta</strong> y confirma dos veces. Tu cuenta se borra al instante y se cierra tu sesión.</p>
+  </div>
+
+  <div class="card">
+    <h2>Solicitar el borrado por correo</h2>
+    <p>Si no tienes la app instalada, déjanos el correo con el que te registraste. Abriremos un correo a <strong>soporte@moneypik.app</strong> con tu solicitud; solo tienes que enviarlo.</p>
+    <form onsubmit="return sendRequest(event)">
+      <label for="email">Correo con el que te registraste en Moneypik</label>
+      <input id="email" type="email" required placeholder="tu-correo@ejemplo.com" autocomplete="email">
+      <label for="reason">Motivo (opcional)</label>
+      <textarea id="reason" rows="2" placeholder="Cuéntanos por qué te vas, si quieres"></textarea>
+      <button type="submit">Enviar solicitud de borrado</button>
+      <p class="note">Al enviar, tu app de correo abrirá un mensaje dirigido a soporte@moneypik.app. Nunca compartas tu contraseña: para confirmar la solicitud solo te pediremos que nos escribas desde el mismo correo con el que te registraste.</p>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>¿Qué pasa después?</h2>
+    <ul>
+      <li>Te confirmamos por correo que recibimos tu solicitud.</li>
+      <li>Verificamos que el correo coincida con el de tu cuenta (por seguridad).</li>
+      <li>Borramos tu cuenta y tus datos personales en un máximo de 30 días.</li>
+      <li>Los reportes que otros usuarios hayan hecho sobre tu contenido se conservan sin identificarte (para la auditoría de moderación); los reportes que tú hiciste se eliminan.</li>
+    </ul>
+    <p>¿Preguntas sobre tus datos? Escríbenos a <a href="mailto:privacidad@moneypik.app">privacidad@moneypik.app</a> o lee la <a href="https://lmillan12co.github.io/Moneypik/privacidad/">Política de Privacidad</a>.</p>
+  </div>
+
+  <footer>
+    <p>© 2026 Moneypik. Todos los derechos reservados.</p>
+  </footer>
+</div>
+<script>
+  function sendRequest(e) {
+    e.preventDefault();
+    var email = document.getElementById('email').value.trim();
+    var reason = document.getElementById('reason').value.trim();
+    var subject = encodeURIComponent('Solicitud de eliminación de cuenta — ' + email);
+    var body = encodeURIComponent(
+      'Hola, equipo de Moneypik.\n\nQuiero eliminar mi cuenta de Moneypik y todos mis datos personales.\n\nCorreo de la cuenta: ' + email + '\n' +
+      (reason ? 'Motivo: ' + reason + '\n' : '') +
+      '\nEntiendo que la acción es permanente y se procesa en un máximo de 30 días.\n\nGracias.'
+    );
+    window.location.href = 'mailto:soporte@moneypik.app?subject=' + subject + '&body=' + body;
+    return false;
+  }
+</script>
+</body>
+</html>

@@ -40,7 +40,7 @@ const SECTIONS = [
   },
   {
     title: "10. Ley aplicable y contacto",
-    content: `Estos Términos se rigen por las leyes de la República Mexicana. Cualquier disputa se someterá a la jurisdicción de los tribunales competentes de la Ciudad de México.\n\nPara preguntas sobre estos Términos:\n• Email: legal@moneypik.app\n• Sitio web: https://moneypik.app`,
+    content: `Estos Términos se rigen por las leyes de la República Mexicana. Cualquier disputa se someterá a la jurisdicción de los tribunales competentes de la Ciudad de México.\n\nPara preguntas sobre estos Términos:\n• Email: legal@moneypik.app\n• Sitio web: https://lmillan12co.github.io/Moneypik/`,
   },
 ];
 

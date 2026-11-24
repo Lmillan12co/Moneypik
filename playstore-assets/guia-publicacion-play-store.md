@@ -95,8 +95,8 @@ Navega a **"Presencia en Play Store" → "Categoría de la app"** y selecciona:
 En la sección de detalles del desarrollador, ingresa:
 
 - **Email:** soporte@moneypik.app
-- **Sitio web:** https://moneypik.app
-- **Política de privacidad:** https://moneypik.app/privacidad
+- **Sitio web:** https://lmillan12co.github.io/Moneypik/
+- **Política de privacidad:** https://lmillan12co.github.io/Moneypik/privacidad/
 
 > **Acción requerida:** Antes de enviar la app, debes publicar la política de privacidad en una URL pública. La forma más rápida es crear una página en [sites.google.com](https://sites.google.com) o [notion.so](https://notion.so) y copiar el contenido del archivo `politica-de-privacidad.md`.
 

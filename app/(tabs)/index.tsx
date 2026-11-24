@@ -17,6 +17,7 @@ import { trpc } from "@/lib/trpc";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
 import { router } from "expo-router";
+import { PostActions } from "@/components/post-actions";
 
 type Post = {
   id: number;
@@ -53,7 +54,7 @@ function PostCard({ post, currentUserId }: { post: Post; currentUserId?: number 
     if (Platform.OS !== "web") {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
-    likeMutation.mutate({ postId: post.id, postOwnerId: post.userId });
+    likeMutation.mutate({ postId: post.id });
   }, [currentUserId, post.id, post.userId]);
 
   const isOwnPost = currentUserId === post.userId;
@@ -121,6 +122,11 @@ function PostCard({ post, currentUserId }: { post: Post; currentUserId?: number 
           </TouchableOpacity>
         )}
 
+        {/* Reportar / bloquear */}
+        {!isOwnPost && (
+          <PostActions postId={post.id} postOwnerId={post.userId} />
+        )}
+
         {isOwnPost && (
           <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
             <IconSymbol name="heart.fill" size={16} color="#EF4444" />
@@ -135,9 +141,14 @@ function PostCard({ post, currentUserId }: { post: Post; currentUserId?: number 
 export default function HomeScreen() {
   const colors = useColors();
   const { user } = useAuth();
+  const { data: myBlocks } = trpc.moderation.myBlocks.useQuery(undefined, {
+    enabled: !!user,
+  });
   const [refreshing, setRefreshing] = useState(false);
 
   const { data: posts, isLoading, refetch } = trpc.posts.feed.useQuery({ limit: 20, offset: 0 });
+  const blockedIds = new Set((myBlocks ?? []).map((b) => b.blockedUserId));
+  const visiblePosts = (posts ?? []).filter((p) => !blockedIds.has(p.userId));
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -190,7 +201,7 @@ export default function HomeScreen() {
         </View>
       ) : (
         <FlatList
-          data={posts ?? []}
+          data={visiblePosts}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <PostCard post={item as Post} currentUserId={user?.id} />

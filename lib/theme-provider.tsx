@@ -1,8 +1,23 @@
+/**
+ * Moneypik — Proveedor de tema (claro / oscuro).
+ *
+ * REEMPLAZO COMPLETO de lib/theme-provider.tsx del repo (commit f43fce3).
+ * Es el mismo archivo, con un solo cambio: el tema elegido por el
+ * usuario ahora se guarda en el dispositivo (AsyncStorage) y se carga
+ * al arrancar la app. Antes, el interruptor de "Modo Oscuro" de
+ * Configuración solo cambiaba un estado local que se perdía al salir.
+ *
+ * Sin preferencia guardada, se usa el tema del sistema (como antes).
+ */
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Appearance, View, useColorScheme as useSystemColorScheme } from "react-native";
 import { colorScheme as nativewindColorScheme, vars } from "nativewind";
 
 import { SchemeColors, type ColorScheme } from "@/constants/theme";
+import {
+  getSavedColorScheme,
+  setSavedColorScheme,
+} from "@/lib/settings";
 
 type ThemeContextValue = {
   colorScheme: ColorScheme;
@@ -29,10 +44,28 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const setColorScheme = useCallback((scheme: ColorScheme) => {
-    setColorSchemeState(scheme);
-    applyScheme(scheme);
-  }, [applyScheme]);
+  // Al arrancar, cargar el tema guardado por el usuario (si lo hay).
+  useEffect(() => {
+    let cancelled = false;
+    getSavedColorScheme().then((saved) => {
+      if (!cancelled && saved) {
+        setColorSchemeState(saved);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const setColorScheme = useCallback(
+    (scheme: ColorScheme) => {
+      setColorSchemeState(scheme);
+      applyScheme(scheme);
+      // Guardar la preferencia (sin bloquear la pantalla si falla).
+      setSavedColorScheme(scheme).catch(() => {});
+    },
+    [applyScheme],
+  );
 
   useEffect(() => {
     applyScheme(colorScheme);
@@ -61,7 +94,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }),
     [colorScheme, setColorScheme],
   );
-  console.log(value, themeVariables)
 
   return (
     <ThemeContext.Provider value={value}>

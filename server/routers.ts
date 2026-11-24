@@ -4,6 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import * as db from "./db";
+import { accountRouter, moderationRouter } from "./policyRouter";
 import { storagePut } from "./storage";
 
 export const appRouter = router({
@@ -16,6 +17,10 @@ export const appRouter = router({
       return { success: true } as const;
     }),
   }),
+
+  // ─── CUENTA Y MODERACIÓN (políticas de Google Play) ─────────────────────
+  account: accountRouter,
+  moderation: moderationRouter,
 
   // ─── PROFILES ──────────────────────────────────────────────────────────────
   profile: router({
@@ -97,14 +102,24 @@ export const appRouter = router({
       }),
 
     like: protectedProcedure
-      .input(z.object({ postId: z.number(), postOwnerId: z.number() }))
+      .input(z.object({ postId: z.number() }))
       .mutation(async ({ ctx, input }) => {
+        // El dueño del post se lee siempre de la base de datos,
+        // nunca se confía en lo que manda el celular.
+        const post = await db.getPost(input.postId);
+        if (!post || !post.isActive) {
+          throw new Error("Publicación no encontrada");
+        }
+        // Sin auto-like: no se puede generar crédito a uno mismo.
+        if (post.userId === ctx.user.id) {
+          throw new Error("No puedes darte like a ti mismo");
+        }
         const alreadyLiked = await db.hasUserLikedPost(ctx.user.id, input.postId);
         if (alreadyLiked) {
-          await db.unlikePost(ctx.user.id, input.postId);
+          await db.unlikePost(ctx.user.id, input.postId, post.userId);
           return { liked: false };
         }
-        await db.likePost(ctx.user.id, input.postId, input.postOwnerId);
+        await db.likePost(ctx.user.id, input.postId, post.userId);
         return { liked: true };
       }),
   }),

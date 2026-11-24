@@ -27,20 +27,28 @@ const SECTIONS = [
     content: `Su información se almacena en servidores seguros con cifrado en tránsito (TLS/HTTPS) y en reposo. Los datos de la cuenta se conservan mientras su cuenta esté activa. Si elimina su cuenta, procederemos a eliminar su información personal en un plazo de 30 días, excepto cuando la retención sea requerida por obligaciones legales.`,
   },
   {
-    title: "7. Sus derechos",
+    title: "7. Eliminación de cuenta",
+    content: `Puede eliminar su cuenta y todos sus datos en cualquier momento.\n\n• Desde la app: Configuración → Eliminar Cuenta, con doble confirmación. El borrado es inmediato (salvo que tenga un retiro pendiente de pago).\n\n• Desde la web: en https://lmillan12co.github.io/Moneypik/eliminar-cuenta/ puede dejar el email con el que se registró y solicitar el borrado sin tener la app instalada. Procesaremos su solicitud en un máximo de 30 días.\n\nSe borran su perfil, publicaciones, likes, saldo, historial de transacciones y notificaciones. Los reportes que otros hayan hecho sobre su contenido se conservan sin identificarlo.`,
+  },
+  {
+    title: "8. Moderación de contenido",
+    content: `Moneypik es una plataforma con contenido generado por usuarios.\n\n• Reportar: en cada publicación puede tocar el menú (•••) y elegir "Reportar publicación" o "Reportar usuario", indicando el motivo.\n\n• Bloquear: desde el mismo menú puede bloquear a un usuario; sus publicaciones dejarán de aparecer en su feed. Puede desbloquearlo en Configuración → Usuarios bloqueados.\n\n• Revisión: nuestro equipo revisa todos los reportes y oculta el contenido que viole los Términos de Uso. No revelamos quién hizo el reporte.`,
+  },
+  {
+    title: "9. Sus derechos",
     content: `Usted tiene los siguientes derechos respecto a su información personal:\n\n• Acceso: solicitar una copia de los datos que tenemos sobre usted.\n• Rectificación: corregir información inexacta desde la sección "Editar perfil".\n• Eliminación: solicitar la eliminación de su cuenta y datos personales.\n• Portabilidad: solicitar una exportación de sus datos en formato legible por máquina.\n\nPara ejercer estos derechos, contáctenos en privacidad@moneypik.app`,
   },
   {
-    title: "8. Privacidad de menores",
+    title: "10. Privacidad de menores",
     content: `Moneypik no está dirigida a personas menores de 18 años. No recopilamos conscientemente información personal de menores. Si descubrimos que hemos recopilado información de un menor, la eliminaremos de inmediato.`,
   },
   {
-    title: "9. Cambios a esta política",
+    title: "11. Cambios a esta política",
     content: `Podemos actualizar esta Política de Privacidad periódicamente. Le notificaremos sobre cambios significativos a través de una notificación en la aplicación o por correo electrónico. El uso continuado de la aplicación después de la publicación de cambios constituye su aceptación de la política actualizada.`,
   },
   {
-    title: "10. Contacto",
-    content: `Si tiene preguntas sobre esta Política de Privacidad:\n\n• Email: privacidad@moneypik.app\n• Sitio web: https://moneypik.app`,
+    title: "12. Contacto",
+    content: `Si tiene preguntas sobre esta Política de Privacidad:\n\n• Email: privacidad@moneypik.app\n• Sitio web: https://lmillan12co.github.io/Moneypik/`,
   },
 ];
 
